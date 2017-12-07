@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 
 const index = require('./routes/index');
 const advices = require('./routes/advices');
-
+const user = require('./routes/user');
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 app.use('/', index);
 app.use('/', advices);
-
+app.use('/', user);
 
 
 // app.use(session({

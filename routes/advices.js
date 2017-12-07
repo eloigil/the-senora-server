@@ -3,9 +3,6 @@ var router = express.Router();
 
 // Advice model
 const Advice = require('../models/advice').Advice;
-// User model
-// const User = require('../models/user').User;
-
 
 /* GET advises for each child. */
 router.get('/advices/:childId', function (req, res, next) {
@@ -61,19 +58,31 @@ router.post('/advices', (req, res, next) => {
 
 
     if (!title) {
-        return res.unprocessable(req, res, 'Missing mandatory field "title".');
+        return response.unprocessable(req, res, 'Missing mandatory field "title".');
     }
     if (!voice) {
-        return res.unprocessable(req, res, 'Missing mandatory field "voice".');
+        return response.unprocessable(req, res, 'Missing mandatory field "voice".');
     }
     if (!text) {
-        return res.unprocessable(req, res, 'Missing mandatory field "text".');
+        return response.unprocessable(req, res, 'Missing mandatory field "text".');
     }
     if (!childID) {
-        return res.unprocessable(req, res, 'Select a child');
+        return response.unprocessable(req, res, 'Select a child');
     }
-    res.json(res);
-});
+    const newAdvice = Advice({
+        title,
+        voice,
+        text,
+        parentID,
+        childID,
+        favorite
+    });
 
+    newAdvice.save((err) => {
+        if (err) {
+            return next(err);
+        }
+    });
+});
 
 module.exports = router;

@@ -2,7 +2,6 @@ const Advice = require('../models/advice').Advice;
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/senora-db', { useMongoClient: true });
 const advices = [{
-    id: 11,
     title: 'bed',
     voice: 'go to bed',
     text: 'go to bed',
@@ -11,7 +10,6 @@ const advices = [{
     favorite: true
 },
 {
-    id: 12,
     title: 'shower',
     voice: 'go to shower',
     text: 'go to shower',

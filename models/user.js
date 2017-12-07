@@ -10,7 +10,11 @@ const userSchema = new Schema({
         type: String,
         enum: ['parent', 'child'],
         default: 'parent'
-    }
+    },
+    children: {
+        type: [ObjectId],
+        ref: 'User'
+    },
 
 });
 
@@ -18,5 +22,5 @@ const User = mongoose.model('User', userSchema);
 
 module.exports = {
     User
-    /*this is the same than User:User*/
+    //this is the same than User:User
 };

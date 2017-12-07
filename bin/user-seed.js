@@ -3,7 +3,6 @@ const User = require('../models/user').User;
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/senora-db', { useMongoClient: true });
 const users = [{
-  id: 1,
   name: 'eloi',
   username: 'eloi',
   password: 'eloi1234',

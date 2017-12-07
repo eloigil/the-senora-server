@@ -6,11 +6,7 @@ const adviceSchema = new Schema({
     title: String,
     voice: String,
     text: String,
-    parentID: {
-        type: ObjectId,
-        ref: 'User'
-    },
-    childID: {
+    childId: {
         type: ObjectId,
         ref: 'User'
     },
