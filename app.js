@@ -1,13 +1,18 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+// const MongoStore = require('connect-mongo')(session);
 
-var index = require('./routes/index');
 
-var app = express();
+const index = require('./routes/index');
+
+const app = express();
+
+mongoose.connect('mongodb://localhost/senora-db', { useMongoClient: true });
 
 
 // uncomment after placing your favicon in /public
@@ -16,8 +21,26 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+// app.use(cors());
+
 
 app.use('/', index);
+
+--session
+
+// app.use(session({
+//   store: new MongoStore({
+//     mongooseConnection: mongoose.connection,
+//     ttl: 24 * 60 * 60 // 1 day (in seconds)
+//   }),
+//   secret: 'some-string',
+//   resave: true,
+//   saveUninitialized: true,
+//   cookie: {
+//     maxAge: 24 * 60 * 60 * 1000 // (1 day in miliseconds)
+//   }
+// }));
+
 
 // catch 404 and error handler
 
