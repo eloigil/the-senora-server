@@ -6,10 +6,6 @@ const userSchema = new Schema({
     name: String,
     username: String,
     password: String,
-    children: {
-        type: [ObjectId],
-        ref: 'User'
-    },
     role: {
         type: String,
         enum: ['parent', 'child'],

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
 
 const adviceSchema = new Schema({
     title: String,
@@ -9,7 +10,7 @@ const adviceSchema = new Schema({
         type: ObjectId,
         ref: 'User'
     },
-    childID:  {
+    childID: {
         type: ObjectId,
         ref: 'User'
     },

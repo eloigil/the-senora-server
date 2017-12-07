@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -9,14 +8,15 @@ const mongoose = require('mongoose');
 
 
 const index = require('./routes/index');
+const advices = require('./routes/advices');
+
 
 const app = express();
 
 mongoose.connect('mongodb://localhost/senora-db', { useMongoClient: true });
 
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,8 +25,9 @@ app.use(cookieParser());
 
 
 app.use('/', index);
+app.use('/', advices);
 
---session
+
 
 // app.use(session({
 //   store: new MongoStore({
