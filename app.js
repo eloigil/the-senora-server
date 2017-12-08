@@ -4,43 +4,61 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-// const MongoStore = require('connect-mongo')(session);
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const cors = require('cors');
 
 
+const response = require('./helpers/response');
+const configurePassport = require('./helpers/passport');
 const index = require('./routes/index');
 const advices = require('./routes/advices');
 const user = require('./routes/user');
+const auth = require('./routes/auth');
+
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/senora-db', { useMongoClient: true });
+mongoose.Promise = Promise;
+mongoose.connect('mongodb://localhost/senora-db', {
+  keepAlive: true,
+  reconnectTries: Number.MAX_VALUE,
+  useMongoClient: true
+});
 
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:3001']
+}));
 
+app.use(session({
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day (in seconds)
+  }),
+  secret: 'some-string',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000 // (1 day in miliseconds)
+  }
+}));
+
+const passport = configurePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(cors());
 
+//routes
 
 app.use('/', index);
 app.use('/', advices);
 app.use('/', user);
-
-
-// app.use(session({
-//   store: new MongoStore({
-//     mongooseConnection: mongoose.connection,
-//     ttl: 24 * 60 * 60 // 1 day (in seconds)
-//   }),
-//   secret: 'some-string',
-//   resave: true,
-//   saveUninitialized: true,
-//   cookie: {
-//     maxAge: 24 * 60 * 60 * 1000 // (1 day in miliseconds)
-//   }
-// }));
+app.use('/', auth);
 
 
 // catch 404 and error handler

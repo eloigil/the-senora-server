@@ -14,8 +14,7 @@ const userSchema = new Schema({
     children: {
         type: [ObjectId],
         ref: 'User'
-    },
-
+    }
 });
 
 const User = mongoose.model('User', userSchema);
