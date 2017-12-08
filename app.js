@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -8,14 +7,11 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 
-
-const response = require('./helpers/response');
 const configurePassport = require('./helpers/passport');
 const index = require('./routes/index');
 const advices = require('./routes/advices');
 const user = require('./routes/user');
 const auth = require('./routes/auth');
-
 
 const app = express();
 
@@ -28,7 +24,7 @@ mongoose.connect('mongodb://localhost/senora-db', {
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:3001']
+  origin: 'http://localhost:4200'
 }));
 
 app.use(session({
@@ -53,13 +49,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//routes
+// routes
 
 app.use('/', index);
 app.use('/', advices);
 app.use('/', user);
-app.use('/', auth);
-
+app.use('/auth', auth);
 
 // catch 404 and error handler
 
