@@ -1,10 +1,11 @@
+const bcrypt = require('bcrypt');
 var express = require('express');
 var router = express.Router();
 
 // User model
 const User = require('../models/user').User;
 // Advice model
-const Advice = require('../models/advice').Advice;
+// const Advice = require('../models/advice').Advice;
 
 /* GET children. */
 router.get('/user/children', function (req, res, next) {
@@ -37,7 +38,7 @@ router.post('/user/children', function (req, res, next) {
 
   User.findOne({
     username
-  }, 'username', (err, userExists) => {
+  }, 'username', (err, response, userExists) => {
     if (err) {
       return next(err);
     }
@@ -71,7 +72,7 @@ router.post('/user/children', function (req, res, next) {
   });
 });
 
-/*DELETE child. */
+/* DELETE child. */
 router.delete('/user/:childId', (req, res, next) => {
   User.findByIdAndRemove(req.params.childId, (err, result) => {
     if (err) {

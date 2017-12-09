@@ -27,7 +27,6 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/signup', (req, res, next) => {
-  console.log('ddfd');
   if (req.user) {
     return response.forbidden();
   }
@@ -86,9 +85,9 @@ router.post('/logout', (req, res) => {
 
 router.get('/me', (req, res) => {
   if (req.user) {
+    console.log('lololo');
     return response.data(req, res, req.user.asData());
   }
-
   return response.notFound(req, res);
 });
 
