@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-
+const express = require('express');
+const router = express.Router();
+const response = require('../helpers/response');
 // Advice model
 const Advice = require('../models/advice').Advice;
 
@@ -44,15 +44,12 @@ router.put('/advices/:id', function (req, res, next) {
   });
 });
 
-/*POST new advice */
-router.post('/advices', (req, res, next) => {
+/* POST new advice */
+router.post('/advice', (req, res, next) => {
   const {
     title,
     voice,
-    text,
-    parentID,
-    childID,
-    favorite
+    text
   } = req.body;
 
   if (!title) {
@@ -64,16 +61,14 @@ router.post('/advices', (req, res, next) => {
   if (!text) {
     return response.unprocessable(req, res, 'Missing mandatory field "text".');
   }
-  if (!childID) {
+  /* if (!childID) {
     return response.unprocessable(req, res, 'Select a child');
-  }
+  } */
   const newAdvice = Advice({
     title,
     voice,
     text,
-    parentID,
-    childID,
-    favorite
+    childId: '5a29178de7f03922cef39ef5'
   });
 
   newAdvice.save((err) => {
