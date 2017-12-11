@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 
+require('dotenv').config();
 const configurePassport = require('./helpers/passport');
 const index = require('./routes/index');
 const advices = require('./routes/advices');
@@ -16,7 +17,7 @@ const auth = require('./routes/auth');
 const app = express();
 
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/senora-db', {
+mongoose.connect(process.env.MONGODB_URI, {
   keepAlive: true,
   reconnectTries: Number.MAX_VALUE,
   useMongoClient: true
@@ -24,7 +25,7 @@ mongoose.connect('mongodb://localhost/senora-db', {
 
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:4200'
+  origin: [process.env.CLIENT_URL]
 }));
 
 app.use(session({
