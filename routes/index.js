@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const response = require('../helpers/response');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.json({ welcome: 'the Señora' });
+  response.data(req, res, { welcome: 'the Señora' });
 });
 
 module.exports = router;

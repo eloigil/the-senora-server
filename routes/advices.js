@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const response = require('../helpers/response');
+
 // Advice model
 const Advice = require('../models/advice').Advice;
 
@@ -11,7 +12,7 @@ router.get('/advices/:childId', function (req, res, next) {
       next(err);
       return;
     }
-    res.json(result);
+    response.data(req, res, result);
   });
 });
 
@@ -22,7 +23,7 @@ router.get('/advices/:childId/favorites', function (req, res, next) {
       next(err);
       return;
     }
-    res.json(result);
+    response.data(req, res, result);
   });
 });
 
@@ -39,7 +40,7 @@ router.put('/advices/:id', function (req, res, next) {
         next(err);
         return;
       }
-      res.json(data);
+      response.data(req, res, data);
     });
   });
 });
@@ -75,6 +76,8 @@ router.post('/advice', (req, res, next) => {
     if (err) {
       return next(err);
     }
+
+    response.data(req, res, newAdvice);
   });
 });
 

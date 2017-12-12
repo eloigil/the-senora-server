@@ -9,6 +9,8 @@ const cors = require('cors');
 
 require('dotenv').config();
 const configurePassport = require('./helpers/passport');
+const response = require('./helpers/response');
+
 const index = require('./routes/index');
 const advices = require('./routes/advices');
 const user = require('./routes/user');
@@ -60,8 +62,7 @@ app.use('/auth', auth);
 // catch 404 and error handler
 
 app.use((req, res) => {
-  res.status(404);
-  res.json({ error: 'error.not-found' });
+  response.notFound(req, res);
 });
 
 app.use((err, req, res, next) => {
@@ -70,8 +71,7 @@ app.use((err, req, res, next) => {
 
   // only send response if the error ocurred before sending the response
   if (!res.headersSent) {
-    res.status(500);
-    res.json({ error: 'error.unexpected' });
+    response.unexpectedError(req, res);
   }
 });
 

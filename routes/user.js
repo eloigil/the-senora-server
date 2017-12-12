@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const response = require('../helpers/response');
 
 // User model
@@ -11,21 +11,21 @@ const User = require('../models/user').User;
 /* GET children. */
 router.get('/user/children', function (req, res, next) {
   if (!req.user) {
-    res.status(403).json({error: 'requires authenticated user'});
+    return response.forbidden(req, res);
   }
   User.find({ _id: req.user.id }).populate('children').exec((err, result) => {
     if (err) {
       next(err);
       return;
     }
-    res.json(result);
+    response.data(req, res, result);
   });
 });
 
 /* POST child. */
 router.post('/user/child', function (req, res, next) {
   if (!req.user) {
-    res.status(403).json({error: 'requires authenticated user'});
+    return response.forbidden(req, res);
   }
   const {
     name,
@@ -45,7 +45,7 @@ router.post('/user/child', function (req, res, next) {
 
   User.findOne({
     username
-  }, 'username', (err, response, userExists) => {
+  }, 'username', (err, userExists) => {
     if (err) {
       return next(err);
     }
@@ -71,7 +71,7 @@ router.post('/user/child', function (req, res, next) {
         if (err) {
           return next(err);
         }
-        res.json(updatedResult);
+        response.ok(req, res);
       });
     });
   });
@@ -80,7 +80,7 @@ router.post('/user/child', function (req, res, next) {
 /* DELETE child. */
 router.delete('/user/:childId', (req, res, next) => {
   if (!req.user) {
-    res.status(403).json({error: 'requires authenticated user'});
+    return response.forbidden(req, res);
   }
   User.findByIdAndRemove(req.params.childId, (err, result) => {
     if (err) {
@@ -102,6 +102,8 @@ router.delete('/user/:childId', (req, res, next) => {
         //         return next(err);
         //     }
         // });
+        // @todo remove advice of children
+        // @todo send response to frontend
       });
     });
   });

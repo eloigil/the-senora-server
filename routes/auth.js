@@ -8,7 +8,7 @@ const User = require('../models/user').User;
 
 router.post('/login', (req, res, next) => {
   if (req.user) {
-    return response.forbidden();
+    return response.forbidden(req, res);
   }
   passport.authenticate('local', (err, user, info) => {
     if (err) {
@@ -28,7 +28,7 @@ router.post('/login', (req, res, next) => {
 
 router.post('/signup', (req, res, next) => {
   if (req.user) {
-    return response.forbidden();
+    return response.forbidden(req, res);
   }
   const {
     name,
