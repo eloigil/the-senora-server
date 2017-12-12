@@ -10,6 +10,9 @@ const User = require('../models/user').User;
 
 /* GET children. */
 router.get('/user/children', function (req, res, next) {
+  if (!req.user) {
+    res.status(403).json({error: 'requires authenticated user'});
+  }
   User.find({ _id: req.user.id }).populate('children').exec((err, result) => {
     if (err) {
       next(err);
@@ -21,6 +24,9 @@ router.get('/user/children', function (req, res, next) {
 
 /* POST child. */
 router.post('/user/child', function (req, res, next) {
+  if (!req.user) {
+    res.status(403).json({error: 'requires authenticated user'});
+  }
   const {
     name,
     username,
@@ -73,6 +79,9 @@ router.post('/user/child', function (req, res, next) {
 
 /* DELETE child. */
 router.delete('/user/:childId', (req, res, next) => {
+  if (!req.user) {
+    res.status(403).json({error: 'requires authenticated user'});
+  }
   User.findByIdAndRemove(req.params.childId, (err, result) => {
     if (err) {
       return next(err);
