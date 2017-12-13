@@ -10,6 +10,10 @@ const adviceSchema = new Schema({
   favorite: {
     type: Boolean,
     default: false
+  },
+  alert: {
+    type: Boolean,
+    default: false
   }
 });
 

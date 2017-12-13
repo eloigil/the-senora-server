@@ -70,7 +70,7 @@ router.post('/advice', (req, res, next) => {
     title,
     voice,
     text,
-    childId: '5a29178de7f03922cef39ef5'
+    childId
   });
 
   newAdvice.save((err) => {
