@@ -9,7 +9,7 @@ const User = require('../models/user').User;
 // const Advice = require('../models/advice').Advice;
 
 /* GET children. */
-router.get('/user/children', function (req, res, next) {
+router.get('/user/children', (req, res, next) => {
   if (!req.user) {
     return response.forbidden(req, res);
   }
@@ -22,8 +22,22 @@ router.get('/user/children', function (req, res, next) {
   });
 });
 
+/* GET child. */
+router.get('/user/:id', (req, res, next) => {
+  if (!req.user) {
+    return response.forbidden(req, res);
+  }
+  User.findById(req.params.id, (err, result) => {
+    if (err) {
+      next(err);
+      return;
+    }
+    response.data(req, res, result);
+  });
+});
+
 /* POST child. */
-router.post('/user/child', function (req, res, next) {
+router.post('/user/child', (req, res, next) => {
   if (!req.user) {
     return response.forbidden(req, res);
   }

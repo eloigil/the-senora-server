@@ -6,10 +6,7 @@ const adviceSchema = new Schema({
   title: String,
   voice: String,
   text: String,
-  childId: {
-    type: ObjectId,
-    ref: 'User'
-  },
+  childId: String,
   favorite: {
     type: Boolean,
     default: false

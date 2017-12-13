@@ -7,7 +7,7 @@ const Advice = require('../models/advice').Advice;
 
 /* GET advises for each child. */
 router.get('/advices/:childId', function (req, res, next) {
-  Advice.find({ childID: req.params.childId }, (err, result) => {
+  Advice.find({ childId: req.params.childId }, (err, result) => {
     if (err) {
       next(err);
       return;
@@ -18,7 +18,7 @@ router.get('/advices/:childId', function (req, res, next) {
 
 /* GET favorite advices. */
 router.get('/advices/:childId/favorites', function (req, res, next) {
-  Advice.find({ childID: req.params.childId, favorite: true }, (err, result) => {
+  Advice.find({ childId: req.params.childId, favorite: true }, (err, result) => {
     if (err) {
       next(err);
       return;
@@ -50,7 +50,8 @@ router.post('/advice', (req, res, next) => {
   const {
     title,
     voice,
-    text
+    text,
+    childId
   } = req.body;
 
   if (!title) {
@@ -62,9 +63,9 @@ router.post('/advice', (req, res, next) => {
   if (!text) {
     return response.unprocessable(req, res, 'Missing mandatory field "text".');
   }
-  /* if (!childID) {
+  if (!childId) {
     return response.unprocessable(req, res, 'Select a child');
-  } */
+  }
   const newAdvice = Advice({
     title,
     voice,
