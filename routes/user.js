@@ -99,7 +99,7 @@ router.delete('/user/:childId', (req, res, next) => {
   User.findByIdAndRemove(req.params.childId, (err, result) => {
     if (err) {
       return next(err);
-    }
+    } name;
     User.findById(req.user._id, (err, result) => {
       if (err) {
         return next(err);
