@@ -44,6 +44,23 @@ router.put('/advices/:id', function (req, res, next) {
     });
   });
 });
+/* PUT advice. */
+router.put('/advices/:id/alert', function (req, res, next) {
+  Advice.findById(req.params.id, (err, result) => {
+    if (err) {
+      next(err);
+      return;
+    }
+    result.alert = !result.alert;
+    result.save((err, data) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      response.data(req, res, data);
+    });
+  });
+});
 
 /* POST new advice */
 router.post('/advice', (req, res, next) => {
