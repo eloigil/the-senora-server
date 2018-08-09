@@ -27,6 +27,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post('/signup', (req, res, next) => {
+  console.log(req);
   if (req.user) {
     return response.forbidden(req, res);
   }
@@ -35,6 +36,7 @@ router.post('/signup', (req, res, next) => {
     username,
     password
   } = req.body;
+  console.log(name, username, password);
   if (!name) {
     return response.unprocessable(req, res, 'Missing mandatory field "name".');
   }

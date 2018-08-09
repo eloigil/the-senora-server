@@ -15,19 +15,25 @@ const index = require('./routes/index');
 const advices = require('./routes/advices');
 const user = require('./routes/user');
 const auth = require('./routes/auth');
+const pusher = require('./routes/pusher');
 
 const app = express();
 
 mongoose.Promise = Promise;
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.Promise = Promise;
+mongoose.connect('mongodb://localhost/the-senora-api', {
   keepAlive: true,
-  reconnectTries: Number.MAX_VALUE,
-  useMongoClient: true
+  reconnectTries: Number.MAX_VALUE
 });
+// mongoose.connect(process.env.MONGODB_URI, {
+//   keepAlive: true,
+//   reconnectTries: Number.MAX_VALUE,
+//   useMongoClient: true
+// });
 
 app.use(cors({
   credentials: true,
-  origin: [process.env.CLIENT_URL]
+  origin: [process.env.CLIENT_URL, 'http://localhost:4200']
 }));
 
 app.use(session({
@@ -58,6 +64,7 @@ app.use('/', index);
 app.use('/', advices);
 app.use('/', user);
 app.use('/auth', auth);
+app.use('/pusher', pusher);
 
 // catch 404 and error handler
 
